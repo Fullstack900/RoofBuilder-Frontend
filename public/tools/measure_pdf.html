@@ -1,0 +1,267 @@
+<html>
+<head>
+<style>
+    @page {
+        header: page-header;
+        footer: page-footer;
+    }
+
+    @page :first {
+        header: html_firstpageheader;
+        footer: html_firstpagefooter;
+    }
+    .p-0{
+        padding: 0px;
+        margin:0px;
+    }
+
+    .p-1{
+        padding: 0px;
+        margin:10px;
+    }
+
+    .pt-1{
+        padding: 0px;
+        margin-top:10px;
+        margin-bottom:0px;
+    }
+
+    .heading {
+        font-size: 18px;
+    }
+
+    .b {
+        font-weight : 900;
+    }
+
+    .mytable td {
+    border: 1px solid #ccc7c7;
+    padding: 4px;
+}
+.mytable {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+</style>
+</head>
+<body>
+
+
+<htmlpageheader name="firstpageheader" style="display:none">
+    <div style="text-align:center"></div>
+</htmlpageheader>
+
+<htmlpagefooter name="firstpagefooter" style="display:none">
+    <div style="text-align:center"></div>
+</htmlpagefooter>
+
+<htmlpageheader name="page-header" style="display:none">
+    {{-- <div style="text-align:left"> Roofbuilders</div> --}}
+</htmlpageheader>
+
+<htmlpagefooter name="page-footer" style="display:none">
+    <div style="text-align:left">Page {PAGENO} </div>
+</htmlpagefooter>
+
+    <div style="text-align: center; font-family: 'Roboto', sans-serif;" >
+        <img  src="https://app.myroofbuilder.com/images/myroofbuilder-sm.png"  height="350">
+
+        <br/>
+        <hr/>
+        <h2> Measurement Report </h2>
+
+        <p class="p-0">PREPARED FOR</p>
+            <p class="p-0 b" style="color:#646667" ><b> {{$customerName}} </b></p>
+            <p class="p-0" style="color:#8b8c8c" > {{$customerAddresslin1.' '.$customerAddresslin2}} </p>
+            <p class="p-0" style="color:#8b8c8c" > {{$customerCity.' '.$customerState.' '.$customerZip}}  </p>
+            <p class="p-0" style="color:#8b8c8c" > {{$customerPhone}}  </p>
+            <p class="p-0" style="color:#8b8c8c" > <a href="mailto:{{$customerEmail}}">{{$customerEmail}}</a>  </p>
+
+        <br/>
+        <p class="p-0">CREATED BY</p>
+            <p class="p-0 b" style="color:#646667" ><b> {{$salePersonName}} </b> </p>
+            <p class="p-0" style="color:#8b8c8c" > {{$salePersonPhone}}  </p>
+            <p class="p-0" style="color:#8b8c8c" > <a href="mailto:{{$salePersonEmail}}">{{$salePersonEmail}}</a> </p>
+
+        <p class="pt-1" >LOCATION</p>
+        <p class="p-0">MyRoofbuilders.com</p>
+        <p class="p-0" style="color:#8b8c8c" > {{$officeAddress}} </p>
+        <p class="p-0" style="color:#8b8c8c" > {{$officeCity}} {{$officeState}} {{$officeZip}}  </p>
+        <p class="p-0" style="color:#646667" > {{$officePhone}} </p>
+
+        <p class="pt-1" style="color:#8b8c8c" > <a href="mailto:{{$officeEmail}}">{{$officeEmail}}</a> </p>
+        <p class="p-0" style="color:#8b8c8c" > <a target="_blank" href='http://myroofbuilders.com/'>https://myroofbuilders.com/</a>  </h3>
+        <p class="p-0" style="color:#8b8c8c" > <a target="_blank" href='https://facebook.com'>https://facebook.com</a>  </p>
+
+    </div>
+
+
+<pagebreak>
+
+
+<h3 style="font-family: 'Roboto', sans-serif;" >Measurement Report - {{$homeAddress}} <!-- ({{$homeOwner}}) --></h3>
+    <!-- <table border="0" align="right" class="mytable">
+        <tr>
+            <td>Total Roof Area</td>
+            <td>{{$totalArea}}</td>
+        </tr>
+        <tr>
+            <td>Total Roof Slopes</td>
+            <td>{{$numberOfAreas - 1}}</td>
+        </tr>
+        <tr>
+            <td>Total Ridge</td>
+            <td>{{$totalRidge}}</td>
+        </tr>
+        <tr>
+            <td>Total Hip</td>
+            <td>{{$totalHip}}</td>
+        </tr>
+        <tr>
+            <td>Total Rake</td>
+            <td>{{$totalRake}}</td>
+        </tr>
+        <tr>
+            <td>Total Eave</td>
+            <td>{{$totalEave}}</td>
+        </tr>
+        <tr>
+            <td>Total Valley</td>
+            <td>{{$totalValley}}</td>
+        </tr>
+
+    </table>
+
+    <img src="{{$image1}}" height="750">
+    {{--
+    <table border="0" class="mytable">
+        <tr>
+            <td>Contact</td>
+            <td>{{$officeEmail}}</td>
+        </tr>
+        <tr>
+            <td>Company address</td>
+            <td>{{$officeAddress}}</td>
+        </tr>
+        <tr>
+            <td>Phone</td>
+            <td>{{$officePhone}}
+        </tr>
+    </table> --}} 
+    <pagebreak>
+    -->
+<!-- 
+
+    <h3>Length Diagram</h3> 
+
+    <table width="100%">
+        <tr>
+            <td color="#cc0000" style="font-family: 'Roboto', sans-serif;">Ridge {{$totalRidge}}</td>
+            <td color="blue" style="font-family: 'Roboto', sans-serif;">Valley {{$totalValley}}</td>
+            <td color="#ffc107" style="font-family: 'Roboto', sans-serif;">Hip {{$totalHip}}</td>
+            <td color="#008800" style="font-family: 'Roboto', sans-serif;">Rake {{$totalRake}}</td>
+            
+
+        </tr>
+        <tr>
+            <td color="purple" style="font-family: 'Roboto', sans-serif;">Eave {{$totalEave}}</td>
+           
+             <td color="#5c8a00">Pitch Change {{$totalPitchChange}}</td>
+            <td color="#504940" style="font-family: 'Roboto', sans-serif;">Base flashing {{$totalBaseFlashing}}</td>
+            <td color="#008080" style="font-family: 'Roboto', sans-serif;">Step flashing {{$totalStepFlashing}}</td>
+            <td color="#080142">Vent {{$totalVent}}</td> 
+        </tr>
+
+    </table>
+
+    -->
+    <br/>
+    <div style="text-align:center">
+    
+    <img src="{{$image2}}" height="800"  width="100%">
+	</div>
+<pagebreak>
+
+    <h3 style="font-family: 'Roboto', sans-serif;">Area Diagram</h3>
+   <!--
+    <p style="font-family: 'Roboto', sans-serif;">Total Area = {{$totalArea}} sq ft, with {{$numberOfAreas}} Slopes</p>
+    -->
+    <div style="text-align:center">
+    <img src="{{$image3}}" height="900"  width="100%">
+	</div>
+<pagebreak>
+    
+    <h3 style="font-family: 'Roboto', sans-serif;">Pitch Diagram</h3>
+    <!--table width="100%" class="mytable">
+        <tr>
+            <td color="red" style=" font-family: 'Roboto', sans-serif;">Line Pitch</td>
+            <td color="black" style="font-family: 'Roboto', sans-serif;">Area Pitch</td>
+        </tr>
+
+    </table-->
+    <div style="text-align:center">
+    <img src="{{$image4}}" height="900"  width="100%">
+	</div>
+<pagebreak>
+
+
+    <h3 style="font-family: 'Roboto', sans-serif;">Vents and Skylights</h3>
+
+    <table align="right">
+        <tr>
+                 <td valign="top">
+            @if(sizeof($vents) > 0)
+            <table class="mytable"  >
+                @foreach($vents as $key => $marker)
+                        <tr>
+                            <td style="font-family: 'Roboto', sans-serif;text-transform: capitalize;" color="{{getColorByType($key)}}" width="250" >{{$key}}</td><td width="100">{{$marker}}</td >
+                        </tr>
+                @endforeach
+            </table>
+            @endif
+
+            </td>
+            
+
+        </tr>
+    </table>
+ 
+    <div style="text-align:center">
+    <img src="{{$image5}}" height="700"  width="100%">
+	</div>
+<pagebreak>
+
+    <h3 style="font-family: 'Roboto', sans-serif;">Storm Damage</h3>
+
+    <table align="right">
+        <tr>
+                 <td valign="top">
+            @if(sizeof($damages) > 0)
+            <table class="mytable"  >
+                  
+                @foreach($damages as $key => $marker)
+                        <tr>
+                            <td style="font-family: 'Roboto', sans-serif;" color="{{getColorByType($key)}}" width="250" >{{$key}}</td><td width="100">{{$marker}}</td >
+                        </tr>
+                @endforeach
+            </table>
+            @endif
+
+
+            </td>
+            
+
+        </tr>
+    </table>
+    
+   
+    <img src="{{$image6}}" height="700"  width="100%">
+<pagebreak>
+
+    <h3 style="font-family: 'Roboto', sans-serif;">Location photo</h3>
+    <div style="text-align:center">
+    <img src="https://maps.googleapis.com/maps/api/staticmap?zoom=20&size=600x600&maptype=satellite&center={{$latitude}},{{$longitude}}&key=AIzaSyDbJ9UTQKMCfpHrog8780sID2petvQrkWc" style="width:100%;">
+	</div>
+
+</body>
+</html>

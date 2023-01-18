@@ -1,0 +1,721 @@
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Roofbuilders Estimator</title>
+
+    <script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.4.10/leaflet.draw.js'></script>
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-geodesy/v0.1.0/leaflet-geodesy.js'></script>
+
+    <link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.4.10/leaflet.draw.css' rel='stylesheet' />
+    <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.css" />
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Google+Sans:400,500,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700">
+
+    <!-- CSS -->
+
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+
+    <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.min.js"></script>
+
+    <!-- google geometry library -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaj2C3E1Oa8mm6SWCv7VUDUddg3m2FKhI&libraries=geometry"></script>
+
+    <script src="js/leaflet.control.detaillevel.js"></script>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Jquery Draggable Ui -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" ></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
+    <script src="js/pdfgen.js"></script>
+
+    <style type="text/css">
+    p {margin: 0; font-family: 'Roboto', sans-serif;text-decoration: bold;}
+    #map { position: absolute; top: 0; bottom: 0;width: 100%;}
+
+    .calculation-box {height: 75px; width: 150px; position: absolute; top: 10px;left: 10px;        background-color: rgba(54, 54, 54, 0.85); padding: 15px;border-radius: 10px;color: white;text-align: center;}
+    .calculation-box .title { color: #ACFFF9; }
+
+    #export {
+
+    }
+    .text_bold{font-weight: bold;}
+    #properties,#properties2{
+        left: 5%;
+        top:5%;
+        position: absolute;
+        z-index:100;
+        color:black;
+        border-radius:4px;
+        font-family: 'Roboto';
+        cursor: pointer;
+        font-size:12px;
+        text-decoration:none;
+    }
+    .button-container {
+        text-align: center;
+    }
+    .control-icon.fas.setMapToggle.fa-street-view,.control-icon.fas.setMapToggle.fa-map {
+        position: unset;
+        background: unset;
+        box-shadow: none;
+    }
+    .setGlobalPitch{
+        position: absolute;
+        left: 46px;
+        top: 13px;
+        z-index: 100;
+        border-radius: 0px;
+        background: white;
+        width: 25px;
+        height: 26px;
+        padding: 1px;
+    }
+
+    #loader{
+        background-color: #171717d9;
+    }
+    .setMapToggle{
+        position: absolute;
+        left: 12px;
+        width: 25px;
+        height: 26px;
+        padding: 1px;
+        top: 607px;
+        box-shadow: 1px 1px 1px #000;
+        z-index: 100;
+        box-shadow: 1px 1px 5px #000;
+        border-radius: 0px;
+        background: white;
+    }
+
+    .setGlobalInfo{
+        position: absolute;
+        left: 46px;
+        width: 25px;
+        height: 26px;
+        padding: 1px;
+        top: 40px;
+        z-index: 100;
+        border-radius: 0px;
+        background: white;
+    }
+
+    .setPitch{
+        left: 105px;
+        position: absolute;
+        top: 11px;
+        width: 180px;
+    }
+
+    .totalAreaDisplay{
+        right: 5;
+        position: absolute;
+        top: 5px;
+        width: 250px;
+    }
+
+    .res{
+        max-height: 250px;
+        overflow: auto;
+    }
+
+    .totalAreaDisplay .table{
+        font-size: small!important;
+    }
+
+    .ridgeTool {
+        filter: invert(1) sepia(10000%) saturate(10000%) hue-rotate(0deg);
+    }
+    .hipTool {
+        filter: invert(61%) sepia(34%) saturate(4063%) hue-rotate(9deg) brightness(105%) contrast(103%)
+    }
+    .rakeTool {
+        filter: invert(35%) sepia(93%) saturate(877%) hue-rotate(103deg) brightness(98%) contrast(104%);
+    }
+    .valleyTool {
+       filter: invert(13%) sepia(61%) saturate(5186%) hue-rotate(220deg) brightness(91%) contrast(133%)
+    }
+    .eaveTool {
+        filter: invert(28%) sepia(57%) saturate(2050%) hue-rotate(254deg) brightness(84%) contrast(85%);
+    }
+    .step-flashing{
+        filter: invert(25%) sepia(92%) saturate(3612%) hue-rotate(167deg) brightness(92%) contrast(101%);
+    }
+    .base-flashing{
+        filter: invert(28%) sepia(57%) saturate(2050%) hue-rotate(254deg) brightness(84%) contrast(85%);
+    }
+    .ventTool{
+        filter: invert(14%) sepia(6%) saturate(7449%) hue-rotate(212deg) brightness(100%) contrast(133%);
+    }
+
+    .ui-tooltip{
+        position: absolute;
+        width: fit-content;
+        z-index:99999999;
+        background-color: #000;
+        color: #FFFFFF;
+        padding: 5px;
+        font-size: 14px;
+    }
+
+    .fa-icon{
+        font-size: initial;
+        padding: 0px;
+        margin: 0px;
+        margin-left: 1px;
+        color: #5b5b5b;
+    }
+
+    body{
+        overflow: hidden;
+    }
+
+
+
+    /* Add a color to the cancel button */
+
+
+    /* Add padding and center-align text to the container */
+    .container {
+    padding: 16px;
+    text-align: center;
+    }
+
+    /* The Modal (background) */
+    .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 10000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    /* background-color: #474e5d; */
+    padding-top: 50px;
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    }
+
+    #show_navigation_btn .modal-content{
+        width: 100%;
+        padding-top: 0px;
+        overflow: hidden;
+        outline: 0;
+    }
+
+    /* Style the horizontal ruler */
+    hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+    }
+
+    /* The Modal Close Button (x) */
+    .close1 {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    font-size: 40px;
+    font-weight: bold;
+    color: #f1f1f1;
+    }
+
+    .close1:hover,
+    .close1:focus {
+    color: #f44336;
+    cursor: pointer;
+    }
+
+    /* Clear floats */
+    .clearfix::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    .toggle-message {
+       position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        text-align: center;
+        z-index: 9;
+        color: 000;
+        border-radius: 4px;
+        font-family: 'Roboto';
+        cursor: pointer;
+        font-size: 12px;
+        text-decoration: none;
+        font-weight: 100;
+        width: 248px;
+        top: 34px;
+        background: #fff;
+        text-align: center;
+        padding: 4px 3px;
+    }
+    .toggle-message b{font-weight: 600;}
+    .hide{
+        display: none !important;
+    }
+    .pitch-gauge-position
+    {
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        text-align: center;
+        z-index: 9;
+        color: 000;
+        border-radius: 4px;
+        font-family: 'Roboto';
+        cursor: pointer;
+        font-size: 12px;
+        text-decoration: none;
+        font-weight: 100;
+        width: 248px;
+        bottom: 15px;
+        background:#ffffff5c;
+        text-align: center;
+        padding: 4px 3px;
+    }
+    .pitch-gauge-position b
+    {
+        font-weight: 600;
+    }
+    .proposal-msr-page{
+        background-color: #7367F0;
+        border: none !important;
+    }
+    .waves-effect{
+        position: relative;
+        cursor: pointer;
+        display: inline-block;
+        overflow: hidden;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .btn{
+        padding: .9rem 2rem;
+    }
+
+    </style>
+
+<script>
+    //Setup auth token from local storage
+    $.ajaxSetup({
+        beforeSend: function(jqXHR,settings) {
+            if(settings.url.startsWith('/')) {
+                const token = localStorage.getItem('accessToken');
+                const tenant = localStorage.getItem('selectedTenant')
+                jqXHR.setRequestHeader ("Authorization", "Bearer " + token );
+                if (tenant) {
+                    jqXHR.setRequestHeader ('X-Tenant-Id', tenant );
+                }
+            }
+        }
+    });
+
+    var dbProject=null
+    var urlParams = new URLSearchParams(window.location.search);
+    if(urlParams.has('project')) {
+        var projectId=urlParams.get('project')
+        
+        $.get('/api/projects/' + projectId, function(data, status) {
+            dbProject=data
+            console.log('project',dbProject)
+
+            var script = document.createElement('script');
+            script.src = 'js/measure.js';
+            document.body.appendChild(script)
+        })
+    }
+    
+</script>
+
+    </head>
+    <body>
+        <h5 class="toggle-message hide">
+            <b>SNAP IS ON</b> - Shift-S to toggle OFF
+        </h5>
+
+        <h5 class="pitch-gauge-position hide">
+            <b>Pitch Gauge Handler</b> - Bottom (ctrl+alt)
+        </h5>
+
+        <div id="map" onmousemove="streetMouseMove(event)"></div>
+
+        <!-- Modal for Exit Confirmation -->
+        <div id="id01" class="modal">
+            <span onclick="document.getElementById('id01').style.display='none'" class="close1" title="Close Modal">×</span>
+              <div class="container bg-white" style="border-radius: 5px;">
+                <h2> Are you sure you want to Exit From the Estimator ?</h2>
+
+                <div class="clearfix mt-4">
+                    <div class="row">
+                        <div class="offset-2 col-4">
+                            <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn btn btn-secondary btn-block">Cancel</button>
+                        </div>
+                        <div class="col-4">
+                            <button type="button" onclick="window.location.href = '/apps/lead/view/' + dbProject._id" class="deletebtn btn btn-danger  btn-block">Exit</button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+          </div>
+
+           <!-- Modal for Loading  -->
+        <div id="loader" class="modal">
+              <div class="container bg-white" style="border-radius: 5px; padding:80px;">
+                <h2 id="lmsg"> Please wait while system processing & generaing the PDF </h2>
+              </div>
+          </div>
+
+        <div class="modal navigation-modal" id="show_navigation_btn" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <!-- Modal body -->
+                    <div class="modal-body mt-3 mb-3">
+                   <h3> There have been changes on the Measurements card. These new satellite values will be available on the Measurements card. Select one.</h3>
+                        <div class="row">
+                            <div class="col-md-12 ">
+                                <a style="margin:5px;" class="btn btn-primary waves-effect waves-light ml-1 proposal-msr-page" href="javascript:;" onclick="getCoordinates(true);document.getElementById('show_navigation_btn').style.display='none';">
+                                    <span>I will manually update these values on the Measurements card.</span></a><br/>
+                                <a style="margin:5px;" class="btn btn-primary waves-effect waves-light ml-1 proposal-msr-page" href="javascript:;" onclick="getCoordinates(false); document.getElementById('show_navigation_btn').style.display='none';">
+                            
+                                    <span>Let the system automatically overwrite all the values on the Measurement cards.</span></a><br/>
+                                <a style="margin:5px;" class="btn btn-primary waves-effect waves-light ml-1 proposal-msr-page" href="javascript:;" onclick="document.getElementById('show_navigation_btn').style.display='none';"><span>Cancel this save.</span></a><br/>
+                              </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Control buttons -->
+       <!--  <button onclick="$('.setPitch').toggle()" title="Set Pitch" class="btn button-container btn-default btn-sm setGlobalPitch" >
+            <i class="fas fa-building"></i>
+        </button> -->
+
+
+        <!-- <button onclick="generatePdf()" title="Set Pitch" class="btn button-container btn-default btn-sm setGlobalPitch" >
+            <i class="fas fa-building"></i>
+        </button> -->
+
+
+        <!-- <button onclick="$('.totalAreaDisplay').toggle()" title="Area info" class="btn button-container btn-default btn-sm setGlobalInfo" >
+            <i class="fas fa-list"></i>
+        </button> -->
+
+        <!--button title="Pitch Tool" class="btn button-container btn-default btn-sm setMapToggle" >
+            <i class="fas fa-street-view"></i>
+        </button-->
+
+
+        <!-- card for total area display -->
+        <div class="totalAreaDisplay draggable" style="width: 16rem;display: none;">
+            <div class="card">
+                <div class="card-header text-center bg-dark text-white bold"><strong>Drawing Measurements</strong></div>
+                <div class="card-body res p-1">
+                    <table class="table table-hover table-sm">
+                        <tbody class="total_area_value">
+                            <tr>
+                                <td>--</td>
+                                <td>--</td>
+                                <td>--</td>
+                                <td>--</td>
+                                <td>--</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer p-1">
+                    <button onclick="$('.totalAreaDisplay').slideUp()" class="btn btn-dark btn-sm col-sm-6">Save</button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- card for setting pitch -->
+        <div class="setPitch draggable" data-toggle="fade-out">
+            <div class="card">
+                <div class="card-header text-center bg-dark text-white bold " ><strong>Set Pitch</strong></div>
+                <div class="card-body p-1">
+                    <div class="row my-2">
+                        <div class="col-12">
+                            <select name="globalPitch" class="form-control form-control-sm" id="globalPitch" >
+                                <option value="0">0/12</option>
+                                <option value="1">1/12</option>
+                                <option value="2">2/12</option>
+                                <option value="3">3/12</option>
+                                <option value="4">4/12</option>
+                                <option value="5">5/12</option>
+                                <option value="6">6/12</option>
+                                <option value="7">7/12</option>
+                                <option value="8">8/12</option>
+                                <option value="9">9/12</option>
+                                <option value="10">10/12</option>
+                                <option value="11">11/12</option>
+                                <option value="12">12/12</option>
+                                <option value="13">13/12</option>
+                                <option value="14">14/12</option>
+                                <option value="15">15/12</option>
+                                <option value="16">16/12</option>
+                                <option value="17">17/12</option>
+                                <option value="18">18/12</option>
+                                <option value="19">19/12</option>
+                                <option value="20">20/12</option>
+                                <option value="21">21/12</option>
+                                <option value="22">22/12</option>
+                                <option value="23">23/12</option>
+                                <option value="24">24/12</option>
+                            </select>
+                        </div>
+                        <div class="col-6" style="display:none;">
+                            <button class="btn btn-primary btn-sm">Set Pitch</button>
+                        </div>
+                    </div>
+                <div class="card-footer p-1">
+                    <button onclick="$('.setPitch').slideUp()" class="btn btn-dark btn-sm col-sm-6">Save</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Display current selected area -->
+        <div class="card draggable"  style="width: 16rem;;display: none;" id="properties2" >
+            <div class="card-header bg-dark text-white p2header">
+            <strong >Storm Damage</strong>
+                <button onclick="hideItemData()" class="close text-white ">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="card-body p-1 m-0">
+                <table class="table table-hover mt-2">
+                    <tbody class="">
+
+                    <tr>
+                        <td>Type:</td>
+                        <td colspan="2" id="damageType">--</td>
+                    </tr>
+
+                    <tr>
+                        <td id="damageDialog" colspan="4">
+                            <input type="hidden" id="damageLeafletId" name="">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <label class="input-group-text" for="damageOpt">Choose</label>
+                                </div>
+                                <select name="damageOpt" class="custom-select" id="damageOpt" >
+                                    <option value="">Damage Type</option>
+                                    <option value="Leak Area">Leak Area</option>
+                                    <option value="Hail Damage">Hail Damage</option>
+                                    <option value="Wind Damage">Wind Damage</option>
+                                    <option value="Shingle Defect">Shingle Defect</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+            <div class="card-footer p-1">
+                <button type="button" onclick="hideItemData()" class="btn btn-dark">Save</button>
+                <!-- <button type="button" id="deleteItem" class="btn btn-danger">Delete</button> -->
+            </div>
+        </div>
+
+        <!-- Display current selected area -->
+        <div class="card draggable"  style="width: 16rem; position: absolute;right: 0; top: 10;display:none;" id="wasteTool">
+            <div class="card-header bg-dark text-white p2header">
+            <strong >Waste %</strong>
+                <button onclick="hideWasteData()" class="close text-white ">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="card-body p-1 m-0">
+                <table class="table table-hover mt-2">
+                    <tbody class="">
+                        <tr>
+                            <td id="damageDialog" colspan="4">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                      <label class="input-group-text" for="damageOpt">Choose</label>
+                                    </div>
+                                    <select name="wasteOpt" class="custom-select" id="wasteOpt">
+                                        <option value="0">0%</option>
+                                        <option value="1">1%</option>
+                                        <option value="2">2%</option>
+                                        <option value="3">3%</option>
+                                        <option value="4">4%</option>
+                                        <option value="5">5%</option>
+                                        <option value="6">6%</option>
+                                        <option value="7">7%</option>
+                                        <option value="8">8%</option>
+                                        <option value="9">9%</option>
+                                        <option value="10">10%</option>
+                                        <option value="11">11%</option>
+                                        <option value="12">12%</option>
+                                        <option value="13">13%</option>
+                                        <option value="14">14%</option>
+                                        <option value="15">15%</option>
+                                        <option value="16">16%</option>
+                                        <option value="17">17%</option>
+                                        <option value="18">18%</option>
+                                        <option value="19">19%</option>
+                                        <option value="20">20%</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer p-1">
+                <button type="button" onclick="hideWasteData()" class="btn btn-dark">Save</button>
+                <!-- <button type="button" id="deleteItem" class="btn btn-danger">Delete</button> -->
+            </div>
+
+        </div>
+
+        <!-- Display current selected area -->
+        <div class="card draggable"  style="width: 16rem;display: none;" id="properties" >
+            <div class="card-header bg-dark text-white">
+            <strong id="title">Area Info</strong>
+                <button onclick="hideItemData()" class="close text-white ">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="card-body p-1 m-0">
+                <table class="table table-hover mt-2">
+                    <tbody class="">
+                    <tr>
+                        <td>Type:</td>
+                        <td colspan="2" id="sidType">Area</td>
+                    </tr>
+                    <tr>
+                        <td data-leaflet-id=''>Area/length:</td>
+                        <td id="sidLength">--</td>
+                        <td width="44" id="layerVisibility">
+                            <i class="fas toggleEye" ></i>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td id="sidPickPitch" colspan="4">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <label class="input-group-text" for="newPitchValue">Pitch</label>
+                                </div>
+                                <select name="newPitchValue" class="custom-select" id="newPitchValue" >
+                                    <option value="0">0/12</option>
+                                    <option value="1">1/12</option>
+                                    <option value="2">2/12</option>
+                                    <option value="3">3/12</option>
+                                    <option value="4">4/12</option>
+                                    <option value="5">5/12</option>
+                                    <option value="6">6/12</option>
+                                    <option value="7">7/12</option>
+                                    <option value="8">8/12</option>
+                                    <option value="9">9/12</option>
+                                    <option value="10">10/12</option>
+                                    <option value="11">11/12</option>
+                                    <option value="12">12/12</option>
+                                    <option value="13">13/12</option>
+                                    <option value="14">14/12</option>
+                                    <option value="15">15/12</option>
+                                    <option value="16">16/12</option>
+                                    <option value="17">17/12</option>
+                                    <option value="18">18/12</option>
+                                    <option value="19">19/12</option>
+                                    <option value="20">20/12</option>
+                                    <option value="21">21/12</option>
+                                    <option value="22">22/12</option>
+                                    <option value="23">23/12</option>
+                                    <option value="24">24/12</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="sidPickLayer" colspan="4">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <label class="input-group-text" for="newLayerValue">Level</label>
+                                </div>
+                                <select name="newLayerValue" class="custom-select" id="newLayerValue" >
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>                                  
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="sidPickStories" colspan="4">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <label class="input-group-text" for="newStoriesValue">Story</label>
+                                </div>
+                                <select name="newStoriesValue" class="custom-select" id="newStoriesValue" >
+                                    <option value="1" selected>1</option>
+                                    <option value="2">2</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+            <div class="card-footer p-1">
+                <button type="button" onclick="hideItemData()" class="btn btn-dark">Save</button>
+                <!-- <button type="button" id="deleteItem" class="btn btn-danger">Delete</button> -->
+            </div>
+        </div>
+
+            <!-- DIV elements for canvas/image generation -->
+        <div id="gauge"  style = "display:none;position: absolute;z-index:+2000; pointer-events: none;"><img src = "/images/gauge-black.png" style="filter: invert(1);"></div>
+        <div class="d-none" style="text-align:center;" id="canvas-div">
+            <canvas id="generalCanvas" width= "600" height="800" style="border:1px solid #d3d3d3;"></canvas>
+            <canvas id="linesCanvas" width= "600" height="800" style="border:1px solid #d3d3d3;"></canvas>
+            <canvas id="areasCanvas" width= "600" height="800" style="border:1px solid #d3d3d3;"></canvas>
+            <canvas id="pitchCanvas" width= "600" height="800" style="border:1px solid #d3d3d3;"></canvas>
+            <canvas id="ventCanvas" width= "600" height="800" style="border:1px solid #d3d3d3;"></canvas>
+            <canvas id="stormCanvas" width= "600" height="800" style="border:1px solid #d3d3d3;"></canvas>
+        </div>
+
+    </body>
+
+</html>

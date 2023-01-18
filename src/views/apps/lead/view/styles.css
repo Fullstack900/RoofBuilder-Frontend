@@ -1,0 +1,86 @@
+.updateform select, textarea {
+    width: 100%;
+
+    margin-bottom: 20px;
+}
+
+.updateform label {
+    font-size: 1rem;
+    font-weight: bold;
+}
+.updateform input{
+    color:black;
+ 
+}
+.project_field{
+    margin-bottom: 20px;
+}
+.measure-modal input{
+    width:100px;
+}
+.calculations{
+    border: solid 6px black;
+    padding: 10px;
+    position: absolute;
+    margin-top: -20px;
+    background-color: white;
+}
+.infoclose{
+    position: absolute;
+    top: 0px;
+    right: 4px;
+    display: block;
+    cursor: pointer;
+}
+
+.wrapper{
+    color:black;
+}
+.react-dataTable .rdt_TableBody .rdt_TableRow {
+    color:black;
+}
+.areatable
+{
+    border-collapse: separate;
+ border-spacing: 4px;
+}
+.measure-modal label
+{
+    color:black;
+    font-size:inherit;
+}
+.measure-modal input{
+    color: black;
+}
+.measure-modal .form-control:focus
+{
+    color: black;
+}
+.material-hide
+{
+    top:24px;
+    right:24px;
+    position:absolute;
+}
+.maplink:hover
+{
+text-decoration: underline;
+}
+
+.pac-container {
+    z-index: 1051 !important;
+  }
+
+  .quantity-alert{
+    background-color:yellow;
+ 
+  color:black;
+  }
+
+  .cleaveinput
+  {
+    width: 100%;
+  }
+  .measure-modal .form-control::placeholder {
+    color: darkgoldenrod;
+  }
